@@ -7,32 +7,33 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import br.com.cfcsystem.classes.Biometria;
+import br.com.cfcsystem.classes.GPSThread;
 
 
 public class MainActivity extends Activity {
 
-    private Biometria biometria = new Biometria();
+    private Biometria biometria = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button bttInit = (Button) findViewById(R.id.initAula);
+    }
 
-        bttInit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //chamar a thread!
-            }
-        });
+    /** Botão que inicia a Thread que pega a localização do GPS*/
+    public void onGpsClick(View v) {
+
+        GPSThread gpsThread = new GPSThread(MainActivity.this); /** Chama a Thread do GPS*/
+
+        gpsThread.execute(); /**executa a Thread*/
 
     }
 
-    public void onBiometriaClick(View v){
+    public void onBiometriaClick(View v) {
+        //startActivity(new Intent(getBaseContext(),MainActivity.this));
 
         //startActivity(new Intent(getBaseContext(),Biometria.class));
 
@@ -43,17 +44,18 @@ public class MainActivity extends Activity {
 
 
         alertDialogBuilder.setView(viewBiometria);
-        alertDialogBuilder.setTitle("Legendas");
+        alertDialogBuilder.setTitle("Instrutor");
 
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        biometria.getBiometria();
+                        biometria = new Biometria(MainActivity.this);
+                       // biometria.getBiometria();
                     }
                 })
-                .setNegativeButton("Instrutor", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // se não for precionado ele apenas termina o dialog
                         // e fecha a janelinha
@@ -65,7 +67,6 @@ public class MainActivity extends Activity {
         AlertDialog alertDialog = alertDialogBuilder.create();
 
         alertDialog.show();
-
     }
 
 
