@@ -10,27 +10,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import br.com.cfcsystem.aulapraticamobile.DatabaseHandler;
-import br.com.cfcsystem.entity.Instrutor;
+import br.com.cfcsystem.entity.Veiculo;
 
-public class InstrutorController extends Activity implements Serializable {
+public class VeiculoController extends Activity implements Serializable {
 
   private static DatabaseHandler dbHandler;
   private SQLiteDatabase db = null;
   private Cursor fila = null;
-  public InstrutorController(DatabaseHandler dbHandler){
+  public VeiculoController(DatabaseHandler dbHandler){
     this.dbHandler = dbHandler;
  }
-  public void Insert(Instrutor instrutor){
+  public void Insert(Veiculo veiculo){
 
         try {
             try {
                 db = dbHandler.getWritableDatabase();
                 ContentValues registro = new ContentValues();
-                registro.put("codigo",instrutor.getCodigo());
-                registro.put("nome",instrutor.getNome());
-                registro.put("digital",instrutor.getDigital());
-                registro.put("foto",instrutor.getFoto());
-                db.insert("instrutor", null, registro);
+                registro.put("id",veiculo.getId());
+                registro.put("placa",veiculo.getPlaca());
+                registro.put("nome",veiculo.getNome());
+                registro.put("marca",veiculo.getMarca());
+                registro.put("modelo",veiculo.getModelo());
+                db.insert("veiculo", null, registro);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -40,16 +41,17 @@ public class InstrutorController extends Activity implements Serializable {
 
     }
 
-  public void Update(Instrutor instrutor){
+  public void Update(Veiculo veiculo){
         try {
             try {
                 db = dbHandler.getWritableDatabase();
                 ContentValues registro = new ContentValues();
-                registro.put("codigo",instrutor.getCodigo());
-                registro.put("nome",instrutor.getNome());
-                registro.put("digital",instrutor.getDigital());
-                registro.put("foto",instrutor.getFoto());
-                db.update("instrutor", registro, "codigo=" + instrutor.getCodigo(), null);
+                registro.put("id",veiculo.getId());
+                registro.put("placa",veiculo.getPlaca());
+                registro.put("nome",veiculo.getNome());
+                registro.put("marca",veiculo.getMarca());
+                registro.put("modelo",veiculo.getModelo());
+                db.update("veiculo", registro, "id=" + veiculo.getId(), null);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -63,7 +65,7 @@ public class InstrutorController extends Activity implements Serializable {
             try {
                 db = dbHandler.getWritableDatabase();
                 ContentValues registro = new ContentValues();
-                db.delete("instrutor", "codigo="  + id, null);
+                db.delete("veiculo", "id="  + id, null);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -72,20 +74,21 @@ public class InstrutorController extends Activity implements Serializable {
         }
     }
 
-  public ArrayList<Instrutor> getConsulta() {
+  public ArrayList<Veiculo> getConsulta() {
 
 
-        ArrayList<Instrutor> listaInstrutor = new ArrayList<Instrutor>();
+        ArrayList<Veiculo> listaVeiculo = new ArrayList<Veiculo>();
 
         if (fila.moveToFirst()) {  //si ha devuelto 1 fila, vamos al primero (que es el unico)
 
             while (!fila.isAfterLast()){
-                Instrutor instrutor = new Instrutor();
-                instrutor.setCodigo(fila.getInt(0));
-                instrutor.setNome(fila.getString(1));
-                instrutor.setDigital(fila.getString(2));
-                instrutor.setFoto(fila.getBlob(3));
-                listaInstrutor.add(instrutor);
+                Veiculo veiculo = new Veiculo();
+                veiculo.setId(fila.getInt(0));
+                veiculo.setPlaca(fila.getString(1));
+                veiculo.setNome(fila.getString(2));
+                veiculo.setMarca(fila.getString(3));
+                veiculo.setModelo(fila.getString(4));
+                listaVeiculo.add(veiculo);
                 fila.moveToNext();
             }
 
@@ -96,7 +99,7 @@ public class InstrutorController extends Activity implements Serializable {
         }
 
         db.close();
-        return listaInstrutor;
+        return listaVeiculo;
 
     }
 

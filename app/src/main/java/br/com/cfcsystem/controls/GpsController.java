@@ -10,27 +10,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import br.com.cfcsystem.aulapraticamobile.DatabaseHandler;
-import br.com.cfcsystem.entity.Instrutor;
+import br.com.cfcsystem.entity.Gps;
 
-public class InstrutorController extends Activity implements Serializable {
+public class GpsController extends Activity implements Serializable {
 
   private static DatabaseHandler dbHandler;
   private SQLiteDatabase db = null;
   private Cursor fila = null;
-  public InstrutorController(DatabaseHandler dbHandler){
+  public GpsController(DatabaseHandler dbHandler){
     this.dbHandler = dbHandler;
  }
-  public void Insert(Instrutor instrutor){
+  public void Insert(Gps gps){
 
         try {
             try {
                 db = dbHandler.getWritableDatabase();
                 ContentValues registro = new ContentValues();
-                registro.put("codigo",instrutor.getCodigo());
-                registro.put("nome",instrutor.getNome());
-                registro.put("digital",instrutor.getDigital());
-                registro.put("foto",instrutor.getFoto());
-                db.insert("instrutor", null, registro);
+                registro.put("id",gps.getId());
+                registro.put("latitude",gps.getLatitude());
+                registro.put("longitude",gps.getLongitude());
+                registro.put("data_hora",gps.getDataHora());
+                registro.put("status_enviado",gps.getStatusEnviado());
+                registro.put("id_aula",gps.getIdAula());
+                db.insert("gps", null, registro);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -40,16 +42,18 @@ public class InstrutorController extends Activity implements Serializable {
 
     }
 
-  public void Update(Instrutor instrutor){
+  public void Update(Gps gps){
         try {
             try {
                 db = dbHandler.getWritableDatabase();
                 ContentValues registro = new ContentValues();
-                registro.put("codigo",instrutor.getCodigo());
-                registro.put("nome",instrutor.getNome());
-                registro.put("digital",instrutor.getDigital());
-                registro.put("foto",instrutor.getFoto());
-                db.update("instrutor", registro, "codigo=" + instrutor.getCodigo(), null);
+                registro.put("id",gps.getId());
+                registro.put("latitude",gps.getLatitude());
+                registro.put("longitude",gps.getLongitude());
+                registro.put("data_hora",gps.getDataHora());
+                registro.put("status_enviado",gps.getStatusEnviado());
+                registro.put("id_aula",gps.getIdAula());
+                db.update("gps", registro, "id=" + gps.getId(), null);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -63,7 +67,7 @@ public class InstrutorController extends Activity implements Serializable {
             try {
                 db = dbHandler.getWritableDatabase();
                 ContentValues registro = new ContentValues();
-                db.delete("instrutor", "codigo="  + id, null);
+                db.delete("gps", "id="  + id, null);
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -72,20 +76,22 @@ public class InstrutorController extends Activity implements Serializable {
         }
     }
 
-  public ArrayList<Instrutor> getConsulta() {
+  public ArrayList<Gps> getConsulta() {
 
 
-        ArrayList<Instrutor> listaInstrutor = new ArrayList<Instrutor>();
+        ArrayList<Gps> listaGps = new ArrayList<Gps>();
 
         if (fila.moveToFirst()) {  //si ha devuelto 1 fila, vamos al primero (que es el unico)
 
             while (!fila.isAfterLast()){
-                Instrutor instrutor = new Instrutor();
-                instrutor.setCodigo(fila.getInt(0));
-                instrutor.setNome(fila.getString(1));
-                instrutor.setDigital(fila.getString(2));
-                instrutor.setFoto(fila.getBlob(3));
-                listaInstrutor.add(instrutor);
+                Gps gps = new Gps();
+                gps.setId(fila.getInt(0));
+                gps.setLatitude(fila.getDouble(1));
+                gps.setLongitude(fila.getDouble(2));
+                gps.setDataHora(fila.getString(3));
+                gps.setStatusEnviado(fila.getString(4));
+                gps.setIdAula(fila.getInt(5));
+                listaGps.add(gps);
                 fila.moveToNext();
             }
 
@@ -96,7 +102,7 @@ public class InstrutorController extends Activity implements Serializable {
         }
 
         db.close();
-        return listaInstrutor;
+        return listaGps;
 
     }
 

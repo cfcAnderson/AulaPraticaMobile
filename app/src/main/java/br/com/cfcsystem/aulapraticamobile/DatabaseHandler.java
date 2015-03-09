@@ -75,40 +75,82 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private void executaSQL(SQLiteDatabase db) {
 
-        //Entity: LOGIN
+        //Entity: aluno
         try{
-            db.execSQL("CREATE TABLE LOGIN ( " +
-                    " CODIGO  INTEGER        PRIMARY KEY NOT NULL," +
-                    " USUARIO VARCHAR( 50 )," +
-                    " SENHA   VARCHAR( 50 ) ," +
-                    " SALVA_USUARIO VARCHAR(1) DEFAULT 'N')");
+            db.execSQL("CREATE TABLE aluno (" +
+                    " id integer NOT NULL PRIMARY KEY, " +
+                    " nome varchar (100) NOT NULL, " +
+                    " cpf varchar (14) NOT NULL, " +
+                    " data_cadastro date, " +
+                    " municipio varchar(70) NOT NULL, " +
+                    " uf varchar(2)," +
+                    " digital text, " +
+                    " foto blob)");
         }catch (Exception e){
-            System.out.println("Erro ao criar login: "+e.getMessage());
+            System.out.println("Erro ao criar aluno: "+e.getMessage());
         }
 
 
-        //Entity : COBRANCA
+        //Entity : agendamento
         try {
-            db.execSQL("CREATE TABLE COBRANCA ( " +
-                    "    CODIGO      INTEGER PRIMARY KEY NOT NULL," +
-                    "    COD_CLIENTE INTEGER NOT NULL," +
-                    "    CLIENTE     VARCHAR(50) NOT NULL," +
-                    "    VL_ANTERIOR NUMERIC NOT NULL," +
-                    "    VL_PERIODO    NUMERIC NOT NULL," +
-                    "    VL_PAGO    NUMERIC," +
-                    "    DT_PAGAMENTO DATETIME DEFAULT CURRENT_TIMESTAMP," +
-                    "    LATITUDE  NUMERIC," +
-                    "    LONGITUDE NUMERIC," +
-                    "    STATUS     VARCHAR(1)," +//A = Aguardando Importacao I = Importado
-                    "    CIDADE     VARCHAR(30)," +
-                    "    UF         VARCHAR(2),"+
-                    "    DT_PROXIMA DATE," +
-                    "    ORDEM      INTEGER," +
-                    "    FONE1      VARCHAR(13)," +
-                    "    FONE2      VARCHAR(50)," +
-                    "    VL_NEGOCIAR NUMERIC)");
+            db.execSQL("CREATE TABLE agendamento (" +
+                    " id integer NOT NULL PRIMARY KEY, " +
+                    " data_agendamento date, " +
+                    " instrutor_codigo integer REFERENCES instrutor (codigo) ON UPDATE RESTRICT ON DELETE RESTRICT, " +
+                    " veiculo_id integer REFERENCES veiculo (id) ON UPDATE RESTRICT ON DELETE RESTRICT, " +
+                    " aluno_id integer REFERENCES aluno (id) ON UPDATE RESTRICT ON DELETE RESTRICT, " +
+                    " categoria varchar (1))");
         }catch (Exception e){
-            System.out.println("Erro ao criar cobranca: "+e.getMessage());
+            System.out.println("Erro ao criar agendamento: "+e.getMessage());
+        }
+
+        //Entity : agendamento_horario
+        try {
+            db.execSQL("CREATE TABLE agendamento_horario (" +
+                    " id integer NOT NULL PRIMARY KEY, " +
+                    " agendamento_id integer REFERENCES agendamento (id) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    " inicio time, " +
+                    " fim time, " +
+                    " data_aula date, " +
+                    " documento integer, " +
+                    " validado varchar (1) NOT NULL DEFAULT 'N')");
+        }catch (Exception e){
+            System.out.println("Erro ao criar agendamento: "+e.getMessage());
+        }
+
+        //Entity : gps
+        try {
+            db.execSQL("CREATE TABLE gps(" +
+                    "  id integer NOT NULL primary key," +
+                    "  latitude numeric NOT NULL," +
+                    "  longitude numeric NOT NULL," +
+                    "  data_hora datetime NOT NULL," +
+                    "  status_enviado varchar(1) NOT NULL DEFAULT 'N'," +
+                    "  id_aula integer NOT NULL)");
+        }catch (Exception e){
+            System.out.println("Erro ao criar agendamento: "+e.getMessage());
+        }
+
+        //Entity : instrutor
+        try {
+            db.execSQL("CREATE TABLE instrutor(" +
+                    "  codigo integer NOT NULL primary key," +
+                    "  nome varchar(50)," +
+                    "  digital text," +
+                    "  foto blob)");
+        }catch (Exception e){
+            System.out.println("Erro ao criar agendamento: "+e.getMessage());
+        }
+
+        //Entity : instrutor
+        try {
+            db.execSQL("CREATE TABLE instrutor(" +
+                    "  codigo integer NOT NULL primary key," +
+                    "  nome varchar(50)," +
+                    "  digital text," +
+                    "  foto blob)");
+        }catch (Exception e){
+            System.out.println("Erro ao criar agendamento: "+e.getMessage());
         }
     }
 }

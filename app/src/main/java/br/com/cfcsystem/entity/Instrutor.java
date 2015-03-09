@@ -1,44 +1,42 @@
 package br.com.cfcsystem.entity;
 
-/**
- * Created by user on 19/02/2015.
- */
-public class Instrutor {
+public class Instrutor{
 
-    private Integer codigo;
-    private String nome;
-    private String biometria;
-    private byte[] picture;
+  private Integer codigo;
+  private String nome;
+  private String digital;
+  private byte[] foto;
 
-    public Integer getCodigo() {
-        return codigo;
-    }
+  public void setCodigo(Integer codigo){
+      this.codigo = codigo;
+  }
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
-    }
+  public Integer getCodigo(){
+      return codigo;
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public void setNome(String nome){
+      this.nome = nome;
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public String getNome(){
+      return nome;
+  }
 
-    public String getBiometria() {
-        return biometria;
-    }
+  public void setDigital(String digital){
+      this.digital = digital;
+  }
 
-    public void setBiometria(String biometria) {
-        this.biometria = biometria;
-    }
+  public String getDigital(){
+      return digital;
+  }
 
-    public byte[] getPicture() {
-        return picture;
-    }
+  public void setFoto(byte[] foto){
+      this.foto = foto;
+  }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
+  public byte[] getFoto(){
+      return foto;
+  }
+
 }
