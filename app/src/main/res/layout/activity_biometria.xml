@@ -52,9 +52,8 @@
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="183dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:layout_weight="0.60"
                         android:layout_marginLeft="5dp">
 
                         <TextView
@@ -65,10 +64,10 @@
                             android:id="@+id/lblNome" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="407dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Large Text"
+                            android:text="Large TextLarge TextLarge TextLarge TextLarge TextLarge TextLarge TextLarge TextLarge TextLarge TextLarge Text"
                             android:id="@+id/txtNome" />
                     </LinearLayout>
 
